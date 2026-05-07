@@ -3,7 +3,7 @@ use crate::segment::Segment;
 use crate::word::Word;
 
 #[allow(unused)]
-use crate::const_features::*;
+use crate::default_feature::*;
 
 
 #[test]
