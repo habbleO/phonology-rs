@@ -1,10 +1,11 @@
 use crate::default_feature::DefaultFeature;
 
 #[allow(unused)]
-pub const IPA_SYMBOLS: [&'static str; 14] = [
+pub const IPA_SYMBOLS: [&'static str; 22] = [
     "p", "b", "t", "d", "k", "g",
     "m", "n", "ŋ",
-    "a", "e", "i", "o", "u"
+    "a", "e", "i", "o", "u",
+    "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"
 ];
 
 #[allow(unused)]
@@ -41,56 +42,86 @@ impl Feature {
         // Currently used symbols and features
         // p, b, t, d, k, g, a, e, i, o, u
         // m, n, ŋ
+        // f, v, θ, ð, s, z, ʃ, ʒ
         // labial, coronal, dorsal, voice, syllabic,
         // high, low, front, back
         // consonantal, sonorant, nasal
+        // continuant, anterior, distributed
 
         let labial = DefaultFeature::new(
             "labial", 
-            vec!["p", "b", "m"], 
+            vec!["p", "b", "m", "f", "v"], 
             vec!["t", "d", "k", "g", 
-                 "a", "e", "i", "o", "u", "n", "ŋ"]);
+                 "a", "e", "i", "o", "u", "n", "ŋ",
+                 "θ", "ð", "s", "z", "ʃ", "ʒ"]);
         
         let coronal = DefaultFeature::new(
             "coronal",
-            vec!["t", "d", "n"],
+            vec!["t", "d", "n",
+                 "θ", "ð", "s", "z", "ʃ", "ʒ"],
             vec!["p", "b", "k", "g", 
-                 "a", "e", "i", "o", "u", "m", "ŋ"]);
+                 "a", "e", "i", "o", "u", "m", "ŋ",
+                 "f", "v"]);
+
+        let anterior = DefaultFeature::new(
+            "anterior",
+            vec!["t", "d", "n", "θ", "ð", "s", "z"],
+            vec!["ʃ", "ʒ"]
+        );
+
+        let distributed = DefaultFeature::new(
+            "distributed",
+            vec!["θ", "ð", "ʃ", "ʒ"],
+            vec!["t", "d", "n", "s", "z"]
+        );
         
         let dorsal = DefaultFeature::new(
             "dorsal",
             vec!["k", "g", "a", "e", "i", "o", "u", "ŋ"],
-            vec!["p", "b", "t", "d", "m", "n"]);
+            vec!["p", "b", "t", "d", "m", "n",
+                 "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"]);
 
         let voice = DefaultFeature::new(
             "voice",
             vec!["b", "d", "g", 
-                 "a", "e", "i", "o", "u", "m", "n", "ŋ"], 
-            vec!["p", "t", "k"]);
+                 "a", "e", "i", "o", "u", "m", "n", "ŋ",
+                 "v", "ð", "z", "ʒ"], 
+            vec!["p", "t", "k", "f", "θ", "s", "ʃ"]);
 
         let consonantal = DefaultFeature::new(
             "consonantal",
-            vec!["p", "b", "t", "d", "k", "g", "m", "n", "ŋ"],
+            vec!["p", "b", "t", "d", "k", "g", "m", "n", "ŋ",
+                 "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"],
             vec!["a", "e", "i", "o", "u"]
         );
 
         let sonorant = DefaultFeature::new(
             "sonorant",
             vec!["m", "n", "ŋ", "a", "e", "i", "o", "u"],
-            vec!["p", "b", "t", "d", "k", "g"]
+            vec!["p", "b", "t", "d", "k", "g",
+                 "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"]
+        );
+
+        let continuant = DefaultFeature::new(
+            "continuant",
+            vec!["f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ",
+                 "a", "e", "i", "o", "u"],
+            vec!["p", "b", "t", "d", "k", "g", "m", "n", "ŋ"]
         );
 
         let nasal = DefaultFeature::new(
             "nasal",
             vec!["m", "n", "ŋ"],
             vec!["p", "b", "t", "d", "k", "g",
-                 "a", "e", "i", "o", "u"]
+                 "a", "e", "i", "o", "u",
+                 "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"]
         );
 
         let syllabic = DefaultFeature::new(
             "syllabic",
             vec!["a", "e", "i", "o", "u"],
-            vec!["p", "b", "t", "d", "k", "g", "m", "n", "ŋ"]);
+            vec!["p", "b", "t", "d", "k", "g", "m", "n", "ŋ",
+                 "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ"]);
 
         let high = DefaultFeature::new(
             "high",
@@ -120,7 +151,9 @@ impl Feature {
             labial, coronal,
             dorsal, voice,
             consonantal, sonorant,
-            nasal, syllabic, 
+            continuant, anterior,
+            distributed,
+            nasal, syllabic,
             high, low, 
             front, back
         ];

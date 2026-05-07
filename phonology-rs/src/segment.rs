@@ -2,7 +2,7 @@ use std::vec::Vec;
 use crate::feature::Feature;
 
 #[allow(unused)]
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Debug)]
 pub struct Segment {
     /// A segment is an individual phoneme in a word. It has a name (used to display the underlying form of a word) and a feature matrix.
     name: String,
