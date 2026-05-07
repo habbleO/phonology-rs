@@ -10,11 +10,11 @@ pub const IPA_SYMBOLS: [&'static str; 22] = [
 
 #[allow(unused)]
 #[derive(PartialEq, Clone, Debug)]
+/// A phonological Feature object. It has a name and an assignment, which can be +, -, or 0 / underspecified / undefined.
+/// A [+X] feature is represented by Some(true).
+/// A [-X] feature is represented by Some(false).
+/// A [0X] feature is represented by None.
 pub struct Feature {
-    /// A phonological Feature object. It has a name and an assignment, which can be +, -, or 0 / underspecified / undefined.
-    /// A [+X] feature is represented by Some(true).
-    /// A [-X] feature is represented by Some(false).
-    /// A [0X] feature is represented by None.
     name: String,
     assignment: Option<bool>
 }
@@ -22,18 +22,18 @@ pub struct Feature {
 #[allow(unused)]
 impl Feature {
 
+    /// Creates a new feature with the given name and assignment.
     pub fn new<T: Into<String>>(name: T, assignment: Option<bool>) -> Self {
-        /// Creates a new feature with the given name and assignment.
         return Self {name: name.into(), assignment}
     }
 
+    /// Returns a reference to the Feature's name.
     pub fn get_name(&self) -> &str {
-        /// Returns a reference to the Feature's name.
         return &self.name;
     }
 
+    /// Returns a reference to the Feature's assignment.
     pub fn get_assignment(&self) -> &Option<bool> {
-        /// Returns a reference to the Feature's assignment.
         return &self.assignment;
     }
 
@@ -161,8 +161,9 @@ impl Feature {
         return all_defaults;
     }
 
+    /// Tries to convert a symbol into a feature matrix, using the default
+    /// features.
     pub fn to_feature_matrix(symbol: &str) -> Result<Vec<Feature>, String>{
-        /// TODO: Add Doc Comment.
 
         let all_defaults = Feature::get_default_features();
 
