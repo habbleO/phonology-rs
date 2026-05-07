@@ -44,14 +44,21 @@ impl Word {
         return Ok(new_word);
     }
 
-    pub fn from_str(text: &str) -> Result<Self, String> {
-        // If possible, converts a &str into a word, where each character is parsed as an IPA character. If this fails, returns Err.
+    fn parse_as_vec(text: &str) -> Vec<String> {
         let mut ipa_vec: Vec<String> = Vec::new();
 
         for symbol in text.chars() {
             let new_symbol = symbol.clone().to_string();
             ipa_vec.push(new_symbol);
         }
+
+        return ipa_vec;
+    }
+
+    pub fn from_str(text: &str) -> Result<Self, String> {
+        // If possible, converts a &str into a word, where each character is parsed as an IPA character. If this fails, returns Err.
+
+        let ipa_vec = parse_as_vec(text);
 
         let ipa_vec = ipa_vec.iter().map(|x| x.as_str()).collect();
 

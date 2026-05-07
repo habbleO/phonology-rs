@@ -30,6 +30,7 @@ impl Feature {
     }
 
     pub fn get_default_features() -> Vec<DefaultFeature> {
+        // Features are from Hayes, 2011, Introductory Phonology
         // Currently used symbols and features
         // p, b, t, d, k, g, a, e, i, o, u
         // labial, coronal, dorsal, voice, syllabic,
