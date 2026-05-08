@@ -81,4 +81,23 @@ impl Segment {
             return *selected[0].get_assignment();
         }
     }
+
+    fn change_feature(&mut self, feat: &Feature) {
+        let feat_pos = self.get_features().iter().position(|x| x.get_name() == feat.get_name());
+
+        match feat_pos {
+            Some(pos) => {self.features[pos] = feat.clone()},
+            None      => {self.features.push(feat.clone())}
+        };
+    }
+
+    pub fn update_features(&mut self, feat: &Vec<Feature>) -> Result<(), String> {
+        
+        for f in feat {
+            self.change_feature(f);
+        }
+        let new_name = Segment::from_features(self.get_features())?;
+        self.name = new_name.get_name().to_string();
+        Ok(())
+    }
 }

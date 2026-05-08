@@ -268,3 +268,21 @@ fn test_from_features() {
     assert!(t_from_feat.is_ok());
     assert!(t_from_feat.unwrap().get_name() == "t");
 }
+
+#[test]
+pub fn test_update_features() {
+    let mut t_d = Segment::from_symbol("t").unwrap();
+    let voice = Feature::new("voice", Some(true));
+    let _ = t_d.update_features(&vec![voice]);
+
+    assert!(t_d.get_name() == "d");
+
+    let mut d_theta = Segment::from_symbol("d").unwrap();
+    let min_voice = Feature::new("voice", Some(false));
+    let continu = Feature::new("continuant", Some(true));
+    let dist = Feature::new("distributed", Some(true));
+
+    let _ = d_theta.update_features(&vec![min_voice, continu, dist]);
+
+    assert!(d_theta.get_name() == "θ");
+}
