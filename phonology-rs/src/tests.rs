@@ -246,3 +246,25 @@ fn test_no_default_feature_overlap_failure() {
         assert!(overlap.len() != 0);
     }
 }
+
+#[test]
+fn test_is_feature() {
+    let t = Segment::from_symbol("t").unwrap();
+    let some_true = t.is_feature("coronal");
+    let some_false = t.is_feature("voice");
+    let none = t.is_feature("low");
+
+    assert!(some_true == Some(true));
+    assert!(some_false == Some(false));
+    assert!(none == None);
+}
+
+#[test]
+fn test_from_features() {
+    let t = Segment::from_symbol("t").unwrap();
+    let t_features = t.get_features().clone();
+    let t_from_feat = Segment::from_features(&t_features);
+
+    assert!(t_from_feat.is_ok());
+    assert!(t_from_feat.unwrap().get_name() == "t");
+}
