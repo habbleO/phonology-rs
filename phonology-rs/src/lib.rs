@@ -2,7 +2,11 @@
 mod tests;
 
 #[cfg(test)]
-mod test_feature;
+mod test {
+    pub mod test_feature;
+    pub mod test_segment;
+    pub mod test_word;
+}
 
 mod segment;
 mod feature;
