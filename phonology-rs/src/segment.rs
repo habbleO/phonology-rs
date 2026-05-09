@@ -109,7 +109,8 @@ impl Segment {
             Environment::FeatureMatrix(matrix) => {
                 let all_match = matrix
                     .iter()
-                    .all(|x| *x.get_assignment() == self.is_feature(x.get_name()));
+                    .all(|x| 
+                        *x.get_assignment() == self.is_feature(x.get_name()));
                 return all_match;
             }
         };
