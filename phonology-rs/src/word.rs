@@ -1,5 +1,6 @@
 use crate::segment::Segment;
 use crate::feature::Feature;
+use crate::rule::{Rule, RuleIO, Environment};
 use std::vec::Vec;
 
 #[allow(unused)]
@@ -68,4 +69,22 @@ impl Word {
 
         return Word::from_vec(ipa_vec);
     }
+
+    /*pub fn left_env_match(&self, pos: i32, rule: &Rule) -> bool {
+        let left_env = rule.get_left_env();
+        let mut current_pos = pos - 1;
+        let mut env_pos = 0;
+
+        match left_env {
+            Some(x) => {
+                for elem in x.reverse() {
+                    match elem {
+
+                    }
+                }
+            },
+            None => {return true;}
+        };
+    }
+    */
 }

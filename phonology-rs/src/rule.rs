@@ -1,5 +1,6 @@
 use crate::segment::Segment;
 use crate::feature::Feature;
+use std::vec::Vec;
 
 #[allow(unused)]
 #[derive(Debug, Clone, PartialEq)]

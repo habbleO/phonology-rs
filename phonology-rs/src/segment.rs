@@ -1,5 +1,6 @@
 use std::vec::Vec;
 use crate::feature::Feature;
+use crate::rule::Environment;
 
 #[allow(unused)]
 #[derive(PartialEq, Clone, Debug)]
@@ -99,5 +100,18 @@ impl Segment {
         let new_name = Segment::from_features(self.get_features())?;
         self.name = new_name.get_name().to_string();
         Ok(())
+    }
+
+    pub fn environment_match(&self, env: &Environment) -> bool {
+        match env {
+            Environment::Boundary => {return false;},
+            Environment::Segment(x) => {return x == self},
+            Environment::FeatureMatrix(matrix) => {
+                let all_match = matrix
+                    .iter()
+                    .all(|x| *x.get_assignment() == self.is_feature(x.get_name()));
+                return all_match;
+            }
+        };
     }
 }
