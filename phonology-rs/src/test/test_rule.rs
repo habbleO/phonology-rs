@@ -9,7 +9,7 @@ fn test_rule_creation() {
     let b = Segment::from_symbol("b").unwrap();
     let syllabic = Feature::new("syllabic", Some(true));
 
-    let env = Some(vec![Environment::FeatureMatrix(vec![syllabic])]);
+    let env = Some(&vec![Environment::FeatureMatrix(vec![syllabic])]);
     let input = RuleIO::Segment(a);
     let output = RuleIO::Segment(b);
 
@@ -17,14 +17,14 @@ fn test_rule_creation() {
         "Hi", 
         &input, 
         &output,
-        &env,
-        &env);
+        env.clone(),
+        env);
     
     assert!(new_rule.get_name() == "Hi");
     assert!(new_rule.get_input() == &input);
     assert!(new_rule.get_output() == &output);
-    assert!(new_rule.get_left_env() == &env);
-    assert!(new_rule.get_right_env() == &env);
+    assert!(new_rule.get_left_env() == env);
+    assert!(new_rule.get_right_env() == env);
 }
 
 #[test]
@@ -40,10 +40,10 @@ fn left_env_match_boundary() {
         let input = RuleIO::FeatureMatrix(vec![voice.clone()]);
         let output = RuleIO::FeatureMatrix(vec![min_voice.clone()]);
 
-        let env = Some(vec![Environment::Boundary]);
+        let env = Some(&vec![Environment::Boundary]);
 
         onset_devoicing = Rule::new("Onset Devoicing",
-                                    &input, &output, &env, &None);
+                                    &input, &output, env, None);
     }
 
     let fails = potato.left_env_match(1, &onset_devoicing);
@@ -67,11 +67,11 @@ fn left_env_match_features() {
         let input = RuleIO::FeatureMatrix(vec![min_voice.clone()]);
         let output = RuleIO::FeatureMatrix(vec![voice.clone()]);
 
-        let env = Some(vec![
+        let env = Some(&vec![
             Environment::FeatureMatrix(vec![syllabic.clone()])]);
 
         intervocalic_voicing = Rule::new("Intervocalic Voicing", 
-                                         &input, &output, &env, &env);
+                                         &input, &output, env, env);
     }
 
     let fails = potato.left_env_match(0, &intervocalic_voicing);
@@ -93,10 +93,10 @@ fn left_env_match_segment() {
 
         let input = RuleIO::Segment(e);
         let output = RuleIO::Segment(i);
-        let left_env = Some(vec![Environment::Segment(s)]);
+        let left_env = Some(&vec![Environment::Segment(s)]);
 
         post_s_raising = Rule::new("Post-S Rasing",
-                                   &input, &output, &left_env, &None);
+                                   &input, &output, left_env, None);
     }
 
     let fails = sell.left_env_match(0, &post_s_raising);
@@ -122,10 +122,10 @@ fn left_env_match_multiple() {
         let env_1 = Environment::Segment(p);
         let env_2 = Environment::FeatureMatrix(vec![syllabic]);
 
-        let left_env = Some(vec![env_0, env_1, env_2]);
+        let left_env = Some(&vec![env_0, env_1, env_2]);
 
         palatalization = Rule::new("Palatalization",
-                                   &s, &esh, &left_env, &None);
+                                   &s, &esh, left_env, None);
     }
 
     let fails = pis.left_env_match(0, &palatalization);
@@ -153,10 +153,10 @@ fn right_env_match_boundary() {
         let input = RuleIO::FeatureMatrix(vec![voice]);
         let output = RuleIO::FeatureMatrix(vec![min_voice]);
 
-        let env = Some(vec![Environment::Boundary]);
+        let env = Some(&vec![Environment::Boundary]);
 
         final_devoicing = Rule::new("Final Devoicing", 
-                                    &input, &output, &None, &env);                               
+                                    &input, &output, None, env);                               
     }
 
     let fails = pad.right_env_match(0, &final_devoicing);
@@ -181,10 +181,10 @@ fn right_env_match_features() {
         let output = RuleIO::Nothing;
 
         let left_env = None;
-        let right_env = Some(vec![Environment::FeatureMatrix(vec![syllabic])]);
+        let right_env = Some(&vec![Environment::FeatureMatrix(vec![syllabic])]);
 
         cluster_deletion = Rule::new("Cluster Deletion",
-                                         &input, &output, &left_env, &right_env);
+                                         &input, &output, left_env, right_env);
     }
 
     let fails = akta.right_env_match(0, &cluster_deletion);
@@ -218,7 +218,7 @@ fn right_env_match_segment() {
         let right_env = Environment::Segment(i);
 
         palatalization = Rule::new("Palatalization",
-                                   &input, &output, &None, &Some(vec![right_env]));
+                                   &input, &output, None, Some(&vec![right_env]));
     }
 
     let fails = sosi.right_env_match(0, &palatalization);
@@ -252,9 +252,9 @@ fn right_env_match_multiple() {
         let r_env_2 = Environment::FeatureMatrix(vec![syllabic]);
         let r_env_3 = Environment::Boundary;
 
-        let r_env = Some(vec![r_env_1, r_env_2, r_env_3]);
+        let r_env = Some(&vec![r_env_1, r_env_2, r_env_3]);
 
-        Rule::new("test", &input, &output, &left_env, &r_env)
+        Rule::new("test", &input, &output, left_env, r_env)
     };
 
     let fails = akta.right_env_match(0, &new_rule);

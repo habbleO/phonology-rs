@@ -18,14 +18,14 @@ impl Rule {
         name: T, 
         input: &RuleIO, 
         output: &RuleIO,
-        left_env: &Option<Vec<Environment>>,
-        right_env: &Option<Vec<Environment>>) -> Self {
+        left_env: Option<&Vec<Environment>>,
+        right_env: Option<&Vec<Environment>>) -> Self {
         
         let name: String = name.into();
         let input = input.clone();
         let output = output.clone();
-        let left_env = left_env.clone();
-        let right_env = right_env.clone();
+        let left_env = left_env.cloned();
+        let right_env = right_env.cloned();
         return Self {name, input, output, left_env, right_env};
     }
 
@@ -41,12 +41,12 @@ impl Rule {
         return &self.output;
     }
 
-    pub fn get_left_env(&self) -> &Option<Vec<Environment>> {
-        return &self.left_env;
+    pub fn get_left_env(&self) -> Option<&Vec<Environment>> {
+        return self.left_env.as_ref();
     }
 
-    pub fn get_right_env(&self) -> &Option<Vec<Environment>> {
-        return &self.right_env;
+    pub fn get_right_env(&self) -> Option<&Vec<Environment>> {
+        return self.right_env.as_ref();
     }
 }
 
